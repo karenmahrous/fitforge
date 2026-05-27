@@ -1,8 +1,6 @@
 function Dashboard(){
     return(
         <>
-            
-
             <div style = {{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -11,7 +9,7 @@ function Dashboard(){
             }}>
                 <div>
                     <p style={{ color: '#b79f9f', fontSize: '18px'}}>Good morning 👋</p>
-                    <h2 style={{ color: '#dabcbc', fontSize: '22px', fontWeight: '500', marginTop: '4px'}}>Karen</h2>
+                    <h2 style={{ color: '#dabcbc', fontSize: '22px', fontWeight: '500', marginTop: '4px'}}>Karen !</h2>
                 </div>
 
                 <div style ={{
@@ -28,7 +26,70 @@ function Dashboard(){
                     K
                 </div>
         </div>
+        <div style = {{padding: '13px'}}>
+            <div style = {{
+                background: 'linear-gradient(135deg, #dcb6ab, #815246)', 
+                padding: '20px',
+                color: '#3f1e1e', 
+                borderRadius: '13px',
+            }}>
+                <p>Calories today</p>
+                <h2>1,240 <span style =  {{fontSize: '19px'}}>/ 1,800 kcal </span></h2>
+                <p>560 kcal remaining</p>
+
+                <div style = {{
+                    background: '#e1801f',
+                    borderRadius: '20px',
+                    marginTop: '14px',
+                    height: '9px',
+                }}>
+                    <div style={{
+                        backgroundColor: '#fff',
+                        borderRadius: '20px',
+                        height: '9px',
+                        width: '62%',
+                    }} />
+                </div>
+            </div>
+        </div>
+        <div style = {{
+            padding: '13px'
+        }}>
+            <div style = {{
+                background:'linear-gradient(135deg, #dcb6ab, #9c7970)',
+                padding: '20px',
+                borderRadius: '13px',
+            }}>
+                <h2 style = {{color: '#3f1e1e', textAlign: "center", marginBottom: '12px'}}>Today's stats</h2>
+                <div style = {{display: 'flex', gap:'12px'}}>
+                    <DailyItem icon = '🏋️' label ='Exercises' number = '3' />
+                    <DailyItem icon = '🔥' label ='Burned' number = '420' />
+                    <DailyItem icon = '💧' label ='Glasses' number = '6' />
+                </div>
+            </div>
+        </div>
     </>
+    )
+}
+
+function DailyItem({icon, label, number}: {icon: string, label: string, number: string}){
+    return(
+            <div style={{
+                flex: 1,
+                background: '#3f2e2e',
+                borderRadius: '13px',
+                padding: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '6px',
+                cursor: 'pointer',
+                
+            }}>
+                <span style={{ fontSize: '22px' }}>{icon}</span>
+                <span style={{ fontSize: '16px', color: '#f0e8e8', fontWeight: '500' }}>{number}</span>
+                <span style={{ fontSize: '12px', color: '#cebcbc' }}>{label}</span>
+            </div>
     )
 }
 

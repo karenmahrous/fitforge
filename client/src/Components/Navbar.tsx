@@ -27,12 +27,12 @@ function NavItem({icon, label, active} : {icon: string, label: string, active?: 
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '3px',
+            gap: '5px',
             cursor: 'pointer',
         }}>
-             <span style={{ fontSize: '20px' }}>{icon}</span>
+             <span style={{ fontSize: '22px' }}>{icon}</span>
              <span style={{
-                fontSize: '10px',
+                fontSize: '13px',
                 color: active ? '#E8603C' : '#a08080',
             }}>
                 {label}
