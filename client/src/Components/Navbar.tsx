@@ -6,7 +6,7 @@ function Navbar(){
             left: '50%',
             transform: 'translateX(-50%)',
             width: '100%',
-            backgroundColor: '#3f212e',
+            backgroundColor: '#4e313d',
             borderTop: '0.5px solid #000000',
             display: 'flex',
             padding: '10px 0 20px'
