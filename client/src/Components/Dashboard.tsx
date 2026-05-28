@@ -32,6 +32,7 @@ function Dashboard(){
                 padding: '20px',
                 color: '#3f1e1e', 
                 borderRadius: '13px',
+                marginTop: '24px'
             }}>
                 <p>Calories today</p>
                 <h2>1,240 <span style =  {{fontSize: '19px'}}>/ 1,800 kcal </span></h2>
@@ -56,7 +57,7 @@ function Dashboard(){
             padding: '13px'
         }}>
             <div style = {{
-                background:'linear-gradient(135deg, #dcb6ab, #9c7970)',
+                background:'linear-gradient(135deg, #e6bab0, #8d645a)',
                 padding: '20px',
                 borderRadius: '13px',
             }}>
@@ -95,7 +96,7 @@ function Dashboard(){
                 {/* Workout info */}
                 <div style={{ flex: 1 }}>
                     <p style={{ color: '#f0e8e8', fontWeight: '500', fontSize: '15px' }}>Push Day</p>
-                    <p style={{ color: '#b49292', fontSize: '12px', marginTop: '3px' }}>4 exercises · 45 min</p>
+                    <p style={{ color: '#c5a2a2', fontSize: '12px', marginTop: '3px' }}>4 exercises · 45 min</p>
                 </div>
 
                 {/* Badge */}
@@ -109,6 +110,34 @@ function Dashboard(){
                     In progress
                 </div>
             </div>
+        </div>
+        <div style = {{padding : '13px'}}>
+            <div style = {{
+                background: '#483535',
+                display: 'flex',
+                borderRadius: '13px',
+                padding: '10px',
+                cursor: "pointer"
+            }}>
+                <div style = {{
+                    background: '#f25a0e',
+                    borderRadius: '50%',
+                    width: '9px',
+                    height: '9px',
+                    marginRight: '8px',
+                    marginTop: '7px'
+                }}>
+
+                </div>
+                <span style = {{
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}>
+                    <p style={{fontSize: '16px', color: '#f25a0e', marginBottom: '9px', marginTop: '3px'}}>Coach Tip</p>
+                    <p style={{fontSize: '14px', color: '#c5a2a2', marginBottom: '7px'}}>You're 500kcal from our goal. Consider a protein-rich snack after your workout to hit your target</p>
+                </span>
+            </div>
+
         </div>
 
     </>
