@@ -68,6 +68,49 @@ function Dashboard(){
                 </div>
             </div>
         </div>
+        <div style={{ padding: '13px' }}>
+            <div style={{
+                background: '#483535',
+                padding: '16px',
+                borderRadius: '13px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '14px',
+                cursor: 'pointer',
+            }}>
+                {/* Icon box */}
+                <div style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '12px',
+                    background: '#623434',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '23px',
+                }}>
+                    🏃
+                </div>
+
+                {/* Workout info */}
+                <div style={{ flex: 1 }}>
+                    <p style={{ color: '#f0e8e8', fontWeight: '500', fontSize: '15px' }}>Push Day</p>
+                    <p style={{ color: '#b49292', fontSize: '12px', marginTop: '3px' }}>4 exercises · 45 min</p>
+                </div>
+
+                {/* Badge */}
+                <div style={{
+                    backgroundColor: '#633535',
+                    color: '#E8603C',
+                    fontSize: '13px',
+                    padding: '4px 10px',
+                    borderRadius: '99px',
+                }}>
+                    In progress
+                </div>
+            </div>
+        </div>
+
     </>
     )
 }
