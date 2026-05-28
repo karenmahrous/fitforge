@@ -1,4 +1,4 @@
-function Navbar(){
+function Navbar({currentPage, onNavigate} : {currentPage: string, onNavigate: (page: string) => void}){
     return(
         <nav style = {{
             position: 'fixed',
@@ -11,16 +11,16 @@ function Navbar(){
             display: 'flex',
             padding: '10px 0 20px'
         }}>
-        <NavItem icon="🏠" label="Home" active />
-        <NavItem icon="🏋️" label="Workouts" />
-        <NavItem icon="🥗" label="Nutrition" />
-        <NavItem icon="📈" label="Progress" />
-        <NavItem icon="🤖" label="Coach" />
+        <NavItem icon="🏠" label="Home" active = {currentPage === 'home'} onClick ={() => onNavigate('home')}/>
+        <NavItem icon="🏋️" label="Workouts" active = {currentPage === 'workouts' || currentPage === 'workoutDetail'} onClick = {() => onNavigate('workouts')}/>
+        <NavItem icon="🥗" label="Nutrition" active = {currentPage === 'nutrition'} onClick = {() => onNavigate('nutrition')}/>
+        <NavItem icon="📈" label="Progress" active = {currentPage === 'progress'} onClick = {() => onNavigate('progress')}/>
+        <NavItem icon="🤖" label="Coach" active = {currentPage === 'coach'} onClick = {() => onNavigate('coach')}/>
         </nav>
     )
 }
 
-function NavItem({icon, label, active} : {icon: string, label: string, active?: boolean}){
+function NavItem({icon, label, active, onClick} : {icon: string, label: string, active? : boolean, onClick?: () => void}){
     return(
         <div style = {{
             flex: 1,
@@ -29,7 +29,7 @@ function NavItem({icon, label, active} : {icon: string, label: string, active?: 
             alignItems: 'center',
             gap: '5px',
             cursor: 'pointer',
-        }}>
+        }} onClick = {onClick}>
              <span style={{ fontSize: '22px' }}>{icon}</span>
              <span style={{
                 fontSize: '13px',
