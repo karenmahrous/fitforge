@@ -22,7 +22,9 @@ function Dashboard(){
                     justifyContent: 'center',
                     color: '#fff',
                     fontWeight: '500',
-                    fontSize: '16px',}}>
+                    fontSize: '16px',
+                    cursor: 'pointer'
+                }}>
                     K
                 </div>
         </div>
@@ -148,7 +150,7 @@ function DailyItem({icon, label, number}: {icon: string, label: string, number: 
     return(
             <div style={{
                 flex: 1,
-                background: '#3f2e2e',
+                background: '#804c4c',
                 borderRadius: '13px',
                 padding: '12px',
                 display: 'flex',
