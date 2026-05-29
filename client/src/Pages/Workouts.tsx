@@ -32,7 +32,9 @@ function Workouts({ onSelectWorkout, workouts, setWorkouts }: {
     }
 
     return (
-        <>
+        <div style = {{
+            paddingBottom: '100px',
+        }}>
             {/* Log Workout Button */}
             {!showForm &&
                 <div style={{ padding: '20px', display: 'flex' }}>
@@ -227,7 +229,7 @@ function Workouts({ onSelectWorkout, workouts, setWorkouts }: {
                     </div>
                 )}
             </div>
-        </>
+        </div>
     )
 }
 

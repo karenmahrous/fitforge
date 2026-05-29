@@ -24,3 +24,6 @@ html {
   margin: 0 auto;
   background-color: #2d0a1a;
 }
+body {
+    overflow-y: auto;
+}

@@ -1,6 +1,8 @@
 function Dashboard(){
     return(
-        <>
+        <div style = {{
+            paddingBottom: '100px',
+        }}>
             <div style = {{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -142,7 +144,7 @@ function Dashboard(){
 
         </div>
 
-    </>
+    </div>
     )
 }
 
