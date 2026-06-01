@@ -1,7 +1,14 @@
 import { useState } from "react"
 
-function WorkoutDetail({ workout, onBack, onDelete }: { workout: any, onBack: () => void, onDelete: () => void }) {
+function WorkoutDetail({ workout, onBack, onDelete, workouts, setWorkouts}: {
+    workout: any, 
+    onBack: () => void, 
+    onDelete: () => void, 
+    workouts: any[], 
+    setWorkouts: (w: any[]) => void 
+}) {
     const [isEditing, setIsEditing] = useState(false)
+    const [editedWorkout, setEditedWorkout] = useState(workout.exercises)
 
     return (
         <div style={{ paddingBottom: '100px'}}>
@@ -25,10 +32,21 @@ function WorkoutDetail({ workout, onBack, onDelete }: { workout: any, onBack: ()
                         fontSize: '14px',
                     }}
                 >
-                    <span style = {{fontSize: '15px'}}>← Back</span>
+                    <span style={{ fontSize: '15px' }}>← Back</span>
                 </div>
                 <div
-                    onClick={() => setIsEditing(!isEditing)}
+                    onClick={() => {
+                        if (isEditing) {
+                            const updatedWorkout = workouts.map(w => 
+                                w.id === workout.id ? {
+                                    ...w,
+                                    exercises: editedWorkout
+                                } : w
+                            )
+                            setWorkouts(updatedWorkout)
+                        }
+                        setIsEditing(!isEditing)
+                    }}
                     style={{
                         background: isEditing ? '#E8603C' : '#3f2e2e',
                         color: '#f0e8e8',
@@ -38,7 +56,7 @@ function WorkoutDetail({ workout, onBack, onDelete }: { workout: any, onBack: ()
                         fontSize: '14px',
                     }}
                 >
-                    <span style = {{fontSize: '15px'}}>{isEditing ? 'Save' : 'Edit'}</span>
+                    <span style={{ fontSize: '15px' }}>{isEditing ? 'Save' : 'Edit'}</span>
                 </div>
             </div>
 
@@ -74,21 +92,93 @@ function WorkoutDetail({ workout, onBack, onDelete }: { workout: any, onBack: ()
                         Exercises
                     </p>
 
-                    {workout.exercises.map((exercise: any, index: number) => (
+                    {editedWorkout.map((exercise: any, index: number) => (
                         <div key={index} style={{
                             padding: '14px',
                             background: '#2d0a1a',
                             borderRadius: '12px',
                             marginBottom: '10px',
                         }}>
-                            <h3 style={{ color: '#f0e8e8', fontSize: '16px', marginBottom: '6px' }}>
-                                {exercise.name}
-                            </h3>
-                            <p style={{ color: '#a08080', fontSize: '13px' }}>
-                                {exercise.sets} sets · {exercise.reps} reps
-                            </p>
+                            {isEditing ? (
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <input
+                                        value={exercise.name}
+                                        onChange={(e) => {
+                                            const updated = [...editedWorkout]
+                                            updated[index].name = e.target.value
+                                            setEditedWorkout(updated)
+                                        }}
+                                        style={{
+                                            flex: 2, padding: '8px', borderRadius: '8px',
+                                            border: 'none', background: '#5a3030',
+                                            color: '#f0e8e8', fontSize: '13px',
+                                        }}
+                                    />
+                                    <input
+                                        value={exercise.sets}
+                                        onChange={(e) => {
+                                            const updated = [...editedWorkout]
+                                            updated[index].sets = e.target.value
+                                            setEditedWorkout(updated)
+                                        }}
+                                        placeholder="Sets"
+                                        style={{
+                                            flex: 1, padding: '8px', borderRadius: '8px',
+                                            border: 'none', background: '#5a3030',
+                                            color: '#f0e8e8', fontSize: '13px',
+                                        }}
+                                    />
+                                    <input
+                                        value={exercise.reps}
+                                        onChange={(e) => {
+                                            const updated = [...editedWorkout]
+                                            updated[index].reps = e.target.value
+                                            setEditedWorkout(updated)
+                                        }}
+                                        placeholder="Reps"
+                                        style={{
+                                            flex: 1, padding: '8px', borderRadius: '8px',
+                                            border: 'none', background: '#5a3030',
+                                            color: '#f0e8e8', fontSize: '13px',
+                                        }}
+                                    />
+                                    <p
+                                        onClick={() => setEditedWorkout(editedWorkout.filter((_: any, i: number) => i !== index))}
+                                        style={{
+                                            color: '#E8603C', cursor: 'pointer',
+                                            marginTop: '8px', fontSize: '13px'
+                                        }}
+                                    >
+                                        ✕
+                                    </p>
+                                </div>
+                            ) : (
+                                <>
+                                    <h3 style={{ color: '#f0e8e8', fontSize: '16px', marginBottom: '6px' }}>
+                                        {exercise.name}
+                                    </h3>
+                                    <p style={{ color: '#a08080', fontSize: '13px' }}>
+                                        {exercise.sets} sets · {exercise.reps} reps
+                                    </p>
+                                </>
+                            )}
                         </div>
                     ))}
+
+                    {/* Add exercise button - only in edit mode */}
+                    {isEditing && (
+                        <div
+                            onClick={() => setEditedWorkout([...editedWorkout, { name: '', sets: '', reps: '' }])}
+                            style={{
+                                color: '#E8603C',
+                                fontSize: '13px',
+                                cursor: 'pointer',
+                                marginTop: '8px',
+                            }}
+                        >
+                            + Add Exercise
+                        </div>
+                    )}
                 </div>
             </div>
 

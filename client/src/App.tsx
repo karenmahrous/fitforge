@@ -53,6 +53,8 @@ function App() {
                 setWorkout(workout.filter(w => w.id !== selectedWorkout?.id))
                 setCurrentPage('workouts')
             }}
+            workouts = {workout}
+            setWorkouts = {setWorkout}
         />}
       <Navbar currentPage = {currentPage} onNavigate = {setCurrentPage}/>
     </div>
