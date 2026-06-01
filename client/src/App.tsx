@@ -2,6 +2,7 @@ import Navbar from "./Components/Navbar"
 import Dashboard from "./Components/Dashboard"
 import Workouts from "./Pages/Workouts"
 import WorkoutDetail from "./Pages/WorkoutDetail"
+import Nutrirtion from "./Pages/Nutrition"
 import { useState } from "react"
 
 const initialWorkout = [
@@ -27,10 +28,42 @@ const initialWorkout = [
         },
   ]
 
+const initialMeal = {
+    breakfast: [{
+        id: 1, 
+        name: 'Oatmeal',
+        calories: '280',
+        protein: '10',
+        carbs: '45',
+        fat: '5'
+    },
+    {
+        id: 2, 
+        name: 'Oatmeal',
+        calories: '280',
+        protein: '10',
+        carbs: '45',
+        fat: '5'
+    }
+    ],
+
+    lunch: [{
+        id: 3, 
+        name: 'Chicken Rice Bowl',
+        calories: '520',
+        protein: '40',
+        carbs: '55',
+        fat: '10'
+    }],
+
+    dinner: [],
+    snacks: []
+}
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [selectedWorkout, setSelectedWorkout] = useState<any>(null)
   const [workout, setWorkout] = useState(initialWorkout)
+  const [meal, setMeal] = useState(initialMeal)
 
   return (
     <div style={{ backgroundColor: '#2d0a1a', minHeight: '100vh' }}>
@@ -56,6 +89,9 @@ function App() {
             workouts = {workout}
             setWorkouts = {setWorkout}
         />}
+        {currentPage === 'nutrition' &&
+            <Nutrirtion meal = {meal} setMeal={setMeal}/>
+        }
       <Navbar currentPage = {currentPage} onNavigate = {setCurrentPage}/>
     </div>
   )
