@@ -3,6 +3,7 @@ import Dashboard from "./Components/Dashboard"
 import Workouts from "./Pages/Workouts"
 import WorkoutDetail from "./Pages/WorkoutDetail"
 import Nutrirtion from "./Pages/Nutrition"
+import Progress from "./Pages/Progress"
 import { useState } from "react"
 
 const initialWorkout = [
@@ -91,6 +92,9 @@ function App() {
         />}
         {currentPage === 'nutrition' &&
             <Nutrirtion meal = {meal} setMeal={setMeal}/>
+        }
+        {currentPage === 'progress' &&  
+            <Progress workouts={workout} />
         }
       <Navbar currentPage = {currentPage} onNavigate = {setCurrentPage}/>
     </div>

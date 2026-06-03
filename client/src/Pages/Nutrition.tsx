@@ -3,6 +3,8 @@ import { useState } from "react"
 function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
     const [showForm, setShowForm] = useState<string | null>(null)
     const [newMeal, setNewMeal] = useState({name: '', calories: '', protein: '', carbs: '', fat: ''})
+    const [editingMeal, setEditingMeal] = useState<number | null>(null)
+    const [editedMealItem, setEditedMealItem] = useState({name: '', calories: '', protein: '', carbs: '', fat: ''})
     
     return (
         <div style={{ paddingBottom: '100px' }}>
@@ -13,7 +15,7 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
 
                 {/* Calories summary card */}
                 <div style={{
-                    background: 'linear-gradient(135deg, #8b4558, #5a2535)',
+                    background: 'linear-gradient(135deg, #3f2e2e, #5a2535)',
                     padding: '20px',
                     borderRadius: '20px',
                 }}>
@@ -59,7 +61,7 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                     { key: 'snacks', label: 'Snacks', icon: '🍎' },
                 ].map(mealType => (
                     <div key={mealType.key} style={{
-                        background: 'linear-gradient(135deg, #8b4558, #5a2535)',
+                        background: 'linear-gradient(135deg, #3f2e2e, #5a2535)',
                         padding: '20px',
                         borderRadius: '20px',
                         marginTop: '25px'
@@ -71,7 +73,7 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                                 onClick={() => setShowForm(showForm === mealType.key ? null : mealType.key)}
                                 style={{ cursor: 'pointer', color: '#ff7651', fontSize: '22px' }}
                             >
-                                {showForm === mealType.key ? '✕' : '+'}
+                                {showForm === mealType.key ? '' : '+'}
                             </h3>
                         </div>
 
@@ -86,37 +88,120 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                         {meal[mealType.key].length > 0 && (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
                                 {meal[mealType.key].map((item: any) => (
-                                    <div style = {{
-                                        display: 'flex'
-                                    }}>
-                                        <div key={item.id} style={{
-                                            background: '#eec0cd',
+                                    <div key={item.id} style={{ display: 'flex' }}>
+                                        <div style={{
+                                            background: '#703747',
                                             padding: '12px 16px',
                                             borderRadius: '14px',
-                                            color: '#451f29',
+                                            color: '#f3dee3',
                                             flex: 2
                                         }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                                                <h4 style={{ fontSize: '16px' }}>{item.name}</h4>
-                                                <p style={{ fontSize: '14px' }}>{item.calories} kcal</p>
-                                            </div>
-                                            <div style={{ display: 'flex', gap: '12px' }}>
-                                                <p style={{ fontSize: '13px' }}>P: {item.protein}g</p>
-                                                <p style={{ fontSize: '13px' }}>C: {item.carbs}g</p>
-                                                <p style={{ fontSize: '13px' }}>F: {item.fat}g</p>
-                                            </div>
+                                            {editingMeal === item.id ? (
+                                                /* Edit mode */
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                                    <input
+                                                        value={editedMealItem.name}
+                                                        onChange={(e) => setEditedMealItem({ ...editedMealItem, name: e.target.value })}
+                                                        placeholder="Food name"
+                                                        style={{ padding: '8px', borderRadius: '8px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                                    />
+                                                    <div style={{ display: 'flex', gap: '6px' }}>
+                                                        <input
+                                                            value={editedMealItem.calories}
+                                                            onChange={(e) => setEditedMealItem({ ...editedMealItem, calories: e.target.value })}
+                                                            placeholder="Calories"
+                                                            style={{ flex: 1, padding: '8px', borderRadius: '8px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                                        />
+                                                        <input
+                                                            value={editedMealItem.protein}
+                                                            onChange={(e) => setEditedMealItem({ ...editedMealItem, protein: e.target.value })}
+                                                            placeholder="Protein"
+                                                            style={{ flex: 1, padding: '8px', borderRadius: '8px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                                        />
+                                                        <input
+                                                            value={editedMealItem.carbs}
+                                                            onChange={(e) => setEditedMealItem({ ...editedMealItem, carbs: e.target.value })}
+                                                            placeholder="Carbs"
+                                                            style={{ flex: 1, padding: '8px', borderRadius: '8px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                                        />
+                                                        <input
+                                                            value={editedMealItem.fat}
+                                                            onChange={(e) => setEditedMealItem({ ...editedMealItem, fat: e.target.value })}
+                                                            placeholder="Fat"
+                                                            style={{ flex: 1, padding: '8px', borderRadius: '8px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                                        />
+                                                    </div>
+                                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                                        <div
+                                                            onClick={() => setEditingMeal(null)}
+                                                            style={{
+                                                                flex: 1, padding: '8px', borderRadius: '8px',
+                                                                background: '#5a2535', color: '#f0e8e8',
+                                                                textAlign: 'center', cursor: 'pointer', fontSize: '13px'
+                                                            }}
+                                                        >
+                                                            Cancel
+                                                        </div>
+                                                        <div
+                                                            onClick={() => {
+                                                                setMeal({
+                                                                    ...meal,
+                                                                    [mealType.key]: meal[mealType.key].map((i: any) =>
+                                                                        i.id === item.id ? { ...i, ...editedMealItem } : i
+                                                                    )
+                                                                })
+                                                                setEditingMeal(null)
+                                                            }}
+                                                            style={{
+                                                                flex: 1, padding: '8px', borderRadius: '8px',
+                                                                background: '#E8603C', color: '#fff',
+                                                                textAlign: 'center', cursor: 'pointer', fontSize: '13px'
+                                                            }}
+                                                        >
+                                                            Save
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                /* Display mode */
+                                                <div
+                                                    onClick={() => {
+                                                        setEditingMeal(item.id)
+                                                        setEditedMealItem({
+                                                            name: item.name,
+                                                            calories: item.calories,
+                                                            protein: item.protein,
+                                                            carbs: item.carbs,
+                                                            fat: item.fat
+                                                        })
+                                                    }}
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                                                        <h4 style={{ fontSize: '16px' }}>{item.name}</h4>
+                                                        <p style={{ fontSize: '14px' }}>{item.calories} kcal</p>
+                                                    </div>
+                                                    <div style={{ display: 'flex', gap: '12px' }}>
+                                                        <p style={{ fontSize: '13px' }}>P: {item.protein}g</p>
+                                                        <p style={{ fontSize: '13px' }}>C: {item.carbs}g</p>
+                                                        <p style={{ fontSize: '13px' }}>F: {item.fat}g</p>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
-                                        <div onClick={() => setMeal({
-                                            ...meal,
-                                            [mealType.key] : meal[mealType.key].filter((i: any) => i.id !== item.id)
-                                        })}
-                                        style = {{
-                                           marginLeft : '20px',
-                                           marginTop: '20px',
-                                           cursor: 'pointer'
-                                        }}>
-                                            <h3 style = {{color: '#ff7651'}}>x</h3>
-                                        </div>
+
+                                        {/* Delete button */}
+                                        {editingMeal !== item.id && (
+                                            <div
+                                                onClick={() => setMeal({
+                                                    ...meal,
+                                                    [mealType.key]: meal[mealType.key].filter((i: any) => i.id !== item.id)
+                                                })}
+                                                style={{ marginLeft: '12px', marginTop: '12px', cursor: 'pointer' }}
+                                            >
+                                                <h3 style={{ color: '#ff7651' }}>✕</h3>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -129,24 +214,24 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                                     placeholder="Food name"
                                     value={newMeal.name}
                                     onChange={(e) => setNewMeal({...newMeal, name: e.target.value})}
-                                    style={{ padding: '10px', borderRadius: '10px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                    style={{ padding: '10px', borderRadius: '10px', border: 'none', background: '#672b3d', color: '#f0e8e8' }}
                                 />
-                                <div style={{ display: 'flex', gap: '8px' }}>
+                                <div style={{ display: 'flex', gap: '10px' }}>
                                     <input placeholder="Calories" value={newMeal.calories}
                                         onChange={(e) => setNewMeal({...newMeal, calories: e.target.value})}
-                                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: '#672b3d', color: '#f0e8e8' }}
                                     />
                                     <input placeholder="Protein" value={newMeal.protein}
                                         onChange={(e) => setNewMeal({...newMeal, protein: e.target.value})}
-                                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: '#672b3d', color: '#f0e8e8' }}
                                     />
                                     <input placeholder="Carbs" value={newMeal.carbs}
                                         onChange={(e) => setNewMeal({...newMeal, carbs: e.target.value})}
-                                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: '#672b3d', color: '#f0e8e8' }}
                                     />
                                     <input placeholder="Fat" value={newMeal.fat}
                                         onChange={(e) => setNewMeal({...newMeal, fat: e.target.value})}
-                                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: '#5a2535', color: '#f0e8e8' }}
+                                        style={{ flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: '#672b3d', color: '#f0e8e8' }}
                                     />
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px' }}>
