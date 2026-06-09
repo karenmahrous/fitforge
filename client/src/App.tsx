@@ -4,6 +4,7 @@ import Workouts from "./Pages/Workouts"
 import WorkoutDetail from "./Pages/WorkoutDetail"
 import Nutrirtion from "./Pages/Nutrition"
 import Progress from "./Pages/Progress"
+import Coach from "./Pages/Coach"
 import { useState } from "react"
 
 const initialWorkout = [
@@ -95,6 +96,9 @@ function App() {
         }
         {currentPage === 'progress' &&  
             <Progress workouts={workout} />
+        }
+        {currentPage === 'coach' &&  
+            <Coach />
         }
       <Navbar currentPage = {currentPage} onNavigate = {setCurrentPage}/>
     </div>
