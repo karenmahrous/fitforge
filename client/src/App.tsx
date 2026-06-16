@@ -66,6 +66,9 @@ function App() {
   const [selectedWorkout, setSelectedWorkout] = useState<any>(null)
   const [workout, setWorkout] = useState(initialWorkout)
   const [meal, setMeal] = useState(initialMeal)
+  const [messages, setMessages] = useState([{
+        role: 'assistant', content: 'Hey! I am your AI fitness coach. Ask me anything about workouts, nutrition, or recovery!'
+    }])
 
   return (
     <div style={{ backgroundColor: '#2d0a1a', minHeight: '100vh' }}>
@@ -98,7 +101,7 @@ function App() {
             <Progress workouts={workout} />
         }
         {currentPage === 'coach' &&  
-            <Coach />
+            <Coach messages={messages} setMessages={setMessages}/>
         }
       <Navbar currentPage = {currentPage} onNavigate = {setCurrentPage}/>
     </div>

@@ -2,9 +2,20 @@ import { useState } from "react"
 
 function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
     const [showForm, setShowForm] = useState<string | null>(null)
+    const [showAddMenu, setShowAddMenu] = useState<string | null>(null)
     const [newMeal, setNewMeal] = useState({name: '', calories: '', protein: '', carbs: '', fat: ''})
     const [editingMeal, setEditingMeal] = useState<number | null>(null)
     const [editedMealItem, setEditedMealItem] = useState({name: '', calories: '', protein: '', carbs: '', fat: ''})
+
+    function handleSearch(mealKey: string) {
+        setShowAddMenu(null)
+        setShowForm(mealKey)  // for now opens the manual form — replace with search later
+    }
+
+    function handleScan(mealKey: string) {
+        setShowAddMenu(null)
+        alert('Barcode scanning coming soon!')  // stub — replace with backend logic later
+    }
     
     return (
         <div style={{ paddingBottom: '100px' }}>
@@ -64,18 +75,67 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                         background: 'linear-gradient(135deg, #3f2e2e, #5a2535)',
                         padding: '20px',
                         borderRadius: '20px',
-                        marginTop: '25px'
+                        marginTop: '25px',
+                        position: 'relative'
                     }}>
                         {/* Meal header */}
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                             <h3>{mealType.label + ' ' + mealType.icon}</h3>
-                            <h3
-                                onClick={() => setShowForm(showForm === mealType.key ? null : mealType.key)}
-                                style={{ cursor: 'pointer', color: '#ff7651', fontSize: '22px' }}
-                            >
-                                {showForm === mealType.key ? '' : '+'}
-                            </h3>
+
+                            {/* + button */}
+                            {showForm !== mealType.key && (
+                                <h3
+                                    onClick={() => setShowAddMenu(showAddMenu === mealType.key ? null : mealType.key)}
+                                    style={{ cursor: 'pointer', color: '#ff7651', fontSize: '22px' }}
+                                >
+                                    +
+                                </h3>
+                            )}
                         </div>
+
+                        {/* Dropdown menu */}
+                        {showAddMenu === mealType.key && (
+                            <div style={{
+                                position: 'absolute',
+                                top: '48px',
+                                right: '20px',
+                                background: '#5a2535',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                zIndex: 10,
+                                boxShadow: '0 4px 16px rgba(0,0,0,0.4)'
+                            }}>
+                                <div
+                                    onClick={() => handleSearch(mealType.key)}
+                                    style={{
+                                        padding: '12px 24px',
+                                        color: '#f0e8e8',
+                                        fontSize: '14px',
+                                        cursor: 'pointer',
+                                        borderBottom: '1px solid rgba(255,255,255,0.1)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px'
+                                    }}
+                                >
+                                    🔍 Search
+                                </div>
+                                <div
+                                    onClick={() => handleScan(mealType.key)}
+                                    style={{
+                                        padding: '12px 24px',
+                                        color: '#f0e8e8',
+                                        fontSize: '14px',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px'
+                                    }}
+                                >
+                                    𝄃𝄀𝄁𝄃 Scan Barcode
+                                </div>
+                            </div>
+                        )}
 
                         {/* Total calories */}
                         {meal[mealType.key].length > 0 && (
@@ -97,7 +157,6 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                                             flex: 2
                                         }}>
                                             {editingMeal === item.id ? (
-                                                /* Edit mode */
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                                     <input
                                                         value={editedMealItem.name}
@@ -163,7 +222,6 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                                                     </div>
                                                 </div>
                                             ) : (
-                                                /* Display mode */
                                                 <div
                                                     onClick={() => {
                                                         setEditingMeal(item.id)
@@ -190,7 +248,6 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                                             )}
                                         </div>
 
-                                        {/* Delete button */}
                                         {editingMeal !== item.id && (
                                             <div
                                                 onClick={() => setMeal({

@@ -2,11 +2,8 @@ import { useState } from "react"
 import ReactMarkdown from 'react-markdown'
 import Groq from "groq-sdk"
 
-function Coach(){
+function Coach({messages, setMessages} : {messages: any[], setMessages:React.Dispatch<React.SetStateAction<any[]>>}){
 
-    const [messages, setMessages] = useState([{
-        role: 'assistant', content: 'Hey! I am your AI fitness coach. Ask me anything about workouts, nutrition, or recovery!'
-    }])
     const [input, setInput] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 

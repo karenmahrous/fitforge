@@ -37,10 +37,11 @@ function WorkoutDetail({ workout, onBack, onDelete, workouts, setWorkouts}: {
                 <div
                     onClick={() => {
                         if (isEditing) {
-                            const updatedWorkout = workouts.map(w => 
+                            const filteredExercises = editedWorkout.filter((e: any) => e.name.trim() !== '')
+                            const updatedWorkout = workouts.map(w =>
                                 w.id === workout.id ? {
                                     ...w,
-                                    exercises: editedWorkout
+                                    exercises: filteredExercises
                                 } : w
                             )
                             setWorkouts(updatedWorkout)
@@ -71,6 +72,9 @@ function WorkoutDetail({ workout, onBack, onDelete, workouts, setWorkouts}: {
                     <h2 style={{ color: '#f0e8e8', fontSize: '24px', marginBottom: '10px' }}>
                         🏋️ {workout.name}
                     </h2>
+                    {workout.day && (
+                        <p style={{ color: '#E8603C', fontSize: '13px', marginBottom: '6px' }}>{workout.day}</p>
+                    )}
                     <p style={{ color: '#a08080', fontSize: '14px', paddingBottom: '10px' }}>{workout.date}</p>
                 </div>
             </div>
