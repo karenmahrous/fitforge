@@ -8,27 +8,29 @@ import Coach from "./Pages/Coach"
 import { useState } from "react"
 
 const initialWorkout = [
-        {
-            id: 1,
-            name: 'Push Day',
-            date: '2026-05-27',
-            exercises: [
-                {name: 'Bench Press', sets: 4, reps: 10},
-                {name: 'Shoulder Press', sets: 3, reps: 12},
-                {name: 'Tricep Pushdown', sets: 3, reps: 15},
-            ]
-        },
-        {
-            id: 2,
-            name: 'Pull Day',
-            date: '2026-05-27',
-            exercises: [
-                {name: 'Bench Press', sets: 4, reps: 10},
-                {name: 'Shoulder Press', sets: 3, reps: 12},
-                {name: 'Tricep Pushdown', sets: 3, reps: 15},
-            ]
-        },
-  ]
+    {
+        id: 1,
+        name: 'Push Day',
+        day: 'Monday',
+        date: '2026-05-27',
+        exercises: [
+            {name: 'Bench Press', sets: 4, reps: 10},
+            {name: 'Shoulder Press', sets: 3, reps: 12},
+            {name: 'Tricep Pushdown', sets: 3, reps: 15},
+        ]
+    },
+    {
+        id: 2,
+        name: 'Pull Day',
+        day: 'Wednesday',
+        date: '2026-05-27',
+        exercises: [
+            {name: 'Bench Press', sets: 4, reps: 10},
+            {name: 'Shoulder Press', sets: 3, reps: 12},
+            {name: 'Tricep Pushdown', sets: 3, reps: 15},
+        ]
+    },
+]
 
 const initialMeal = {
     breakfast: [{
