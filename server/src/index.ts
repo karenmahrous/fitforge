@@ -27,6 +27,8 @@ import cors from 'cors' // Handles cross-origin permissions
 
 import { initDB } from './database' // this runs database.ts when the server starts
 
+import workoutRouter from './routes/workouts' 
+
 // Receptionist -> receives every incoming request, and decides which handler to route it to.
 const app = express()
 /*
@@ -56,6 +58,9 @@ app.use(cors())
 
 */
 app.use(express.json())
+
+// This says that any request that starts with /workouts, hand it off to workoutRouter to handle.
+app.use('/workouts', workoutRouter)
 
 /*
     FOR TESTING:
