@@ -5,14 +5,14 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 function Workouts({ onSelectWorkout, workouts, setWorkouts }: {
     onSelectWorkout: (workout: any) => void,
     workouts: any[],
-    setWorkouts: (w: any[]) => void
+    setWorkouts: React.Dispatch<React.SetStateAction<any[]>>
 }) {
     const [workoutName, setWorkoutName] = useState('')
     const [exercises, setExercises] = useState([{ name: '', sets: '', reps: '' }])
     const [showForm, setShowForm] = useState(false)
     const [selectedDay, setSelectedDay] = useState('Monday')
 
-    function handleSave() {
+    async function handleSave() {
         if (workoutName.trim() === '') return
 
         const filteredExercises = exercises.filter(e => e.name.trim() !== '')
@@ -20,18 +20,24 @@ function Workouts({ onSelectWorkout, workouts, setWorkouts }: {
         if (filteredExercises.length === 0) return
 
         const newWorkout = {
-            id: Date.now(),
             name: workoutName,
             day: selectedDay,
             date: new Date().toISOString().split('T')[0],
-            exercises: filteredExercises.map(s => ({
-                name: s.name,
-                sets: s.sets,
-                reps: s.reps
-            }))
+            exercises: filteredExercises
         }
 
-        setWorkouts([...workouts, newWorkout])
+        try{
+            const res = await fetch('http://localhost:3001/workouts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newWorkout)
+            })
+            const savedWorkout = await res.json()
+            setWorkouts((prev: any[]) => [...prev, savedWorkout])
+        }catch (error){
+            console.error('Failed to save workout:', error)
+        }
+
         setWorkoutName('')
         setExercises([{ name: '', sets: '', reps: '' }])
         setSelectedDay('Monday')

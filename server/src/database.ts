@@ -37,7 +37,7 @@ import path from 'path'
     your server runs.
 */
 
-const DB_PATH = path.join(__dirname, '../../database.sqlite')
+const DB_PATH = path.join(__dirname, '../database.sqlite')
 
 let db: Database
 

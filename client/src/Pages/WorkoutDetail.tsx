@@ -5,7 +5,7 @@ function WorkoutDetail({ workout, onBack, onDelete, workouts, setWorkouts}: {
     onBack: () => void, 
     onDelete: () => void, 
     workouts: any[], 
-    setWorkouts: (w: any[]) => void 
+    setWorkouts: React.Dispatch<React.SetStateAction<any[]>>
 }) {
     const [isEditing, setIsEditing] = useState(false)
     const [editedWorkout, setEditedWorkout] = useState(workout.exercises)
@@ -35,16 +35,24 @@ function WorkoutDetail({ workout, onBack, onDelete, workouts, setWorkouts}: {
                     <span style={{ fontSize: '15px' }}>← Back</span>
                 </div>
                 <div
-                    onClick={() => {
+                    onClick={async () => {
                         if (isEditing) {
                             const filteredExercises = editedWorkout.filter((e: any) => e.name.trim() !== '')
-                            const updatedWorkout = workouts.map(w =>
-                                w.id === workout.id ? {
-                                    ...w,
-                                    exercises: filteredExercises
-                                } : w
-                            )
-                            setWorkouts(updatedWorkout)
+                            try {
+                                await fetch (`http://localhost:3001/workouts/${workout.id}`, {
+                                    method: 'PUT',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({exercises: filteredExercises})
+                                })
+                                setWorkouts((prev: any[]) => prev.map(w =>
+                                    w.id === workout.id ? {
+                                        ...w,
+                                        exercises: filteredExercises
+                                    }: w
+                                ))
+                            } catch (error){
+                                console.error('Failed to update workout:', error)
+                            }
                         }
                         setIsEditing(!isEditing)
                     }}
