@@ -202,13 +202,22 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                                                             Cancel
                                                         </div>
                                                         <div
-                                                            onClick={() => {
-                                                                setMeal({
-                                                                    ...meal,
-                                                                    [mealType.key]: meal[mealType.key].map((i: any) =>
-                                                                        i.id === item.id ? { ...i, ...editedMealItem } : i
-                                                                    )
-                                                                })
+                                                            onClick={async () => {
+                                                                try {
+                                                                    await fetch(`http://localhost:3001/meals/${item.id}`, {
+                                                                        method: 'PUT',
+                                                                        headers: { 'Content-Type': 'application/json' },
+                                                                        body: JSON.stringify(editedMealItem)
+                                                                    })
+                                                                    setMeal((prev: any) => ({
+                                                                        ...prev,
+                                                                        [mealType.key]: prev[mealType.key].map((i: any) =>
+                                                                            i.id === item.id ? { ...i, ...editedMealItem } : i
+                                                                        )
+                                                                    }))
+                                                                } catch (error) {
+                                                                    console.error('Failed to update meal:', error)
+                                                                }
                                                                 setEditingMeal(null)
                                                             }}
                                                             style={{
@@ -250,10 +259,19 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
 
                                         {editingMeal !== item.id && (
                                             <div
-                                                onClick={() => setMeal({
-                                                    ...meal,
-                                                    [mealType.key]: meal[mealType.key].filter((i: any) => i.id !== item.id)
-                                                })}
+                                                onClick={async () => {
+                                                    try {
+                                                        await fetch(`http://localhost:3001/meals/${item.id}`, {
+                                                            method: 'DELETE'
+                                                        })
+                                                        setMeal((prev: any) => ({
+                                                            ...prev,
+                                                            [mealType.key]: prev[mealType.key].filter((i: any) => i.id !== item.id)
+                                                        }))
+                                                    } catch (error) {
+                                                        console.error('Failed to delete meal:', error)
+                                                    }
+                                                }}
                                                 style={{ marginLeft: '12px', marginTop: '12px', cursor: 'pointer' }}
                                             >
                                                 <h3 style={{ color: '#ff7651' }}>✕</h3>
@@ -299,12 +317,22 @@ function Nutrition({meal, setMeal} : {meal : any, setMeal: (M:any) => void}) {
                                     }}>
                                         Cancel
                                     </div>
-                                    <div onClick={() => {
+                                    <div onClick={async () => {
                                         if (newMeal.name.trim() === '') return
-                                        setMeal({
-                                            ...meal,
-                                            [mealType.key]: [...meal[mealType.key], { id: Date.now(), ...newMeal }]
-                                        })
+                                        try {
+                                            const res = await fetch(`http://localhost:3001/meals`, {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ type: mealType.key, ...newMeal })
+                                            })
+                                            const savedMeal = await res.json()
+                                            setMeal((prev: any) => ({
+                                                ...prev,
+                                                [mealType.key]: [...prev[mealType.key], savedMeal]
+                                            }))
+                                        } catch (error) {
+                                            console.error('Failed to save meal:', error)
+                                        }
                                         setNewMeal({ name: '', calories: '', protein: '', carbs: '', fat: '' })
                                         setShowForm(null)
                                     }} style={{

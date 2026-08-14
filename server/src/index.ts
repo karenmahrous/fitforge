@@ -29,6 +29,8 @@ import { initDB } from './database' // this runs database.ts when the server sta
 
 import workoutRouter from './routes/workouts' 
 
+import mealsRouter from './routes/meals'
+
 // Receptionist -> receives every incoming request, and decides which handler to route it to.
 const app = express()
 /*
@@ -52,15 +54,16 @@ app.use(cors())
 /*
     - Again app.use() applies for every request
     - This tells Express if a request comes in with JSON data in its body 
-        automatically pasrse it into JavaScript object
+        automatically pasrse it into JavaScript object -> req.body
     - This matters for POST & PUT requests; when React sends a new Workout to the server: without express.json()
         the handler would receive that as raw text. Express parses it and makes it available as req.body
 
 */
 app.use(express.json())
 
-// This says that any request that starts with /workouts, hand it off to workoutRouter to handle.
+// This says that any request that starts with /workouts, hand it off to workoutRouter to handle (when we imported the route we called it workoutRouter). 
 app.use('/workouts', workoutRouter)
+app.use('/meals', mealsRouter)
 
 /*
     FOR TESTING:

@@ -8,45 +8,18 @@ import Coach from "./Pages/Coach"
 import { useEffect, useState } from "react"
 
 
-const initialMeal = {
-    breakfast: [{
-        id: 1, 
-        name: 'Oatmeal',
-        calories: '280',
-        protein: '10',
-        carbs: '45',
-        fat: '5'
-    },
-    {
-        id: 2, 
-        name: 'Oatmeal',
-        calories: '280',
-        protein: '10',
-        carbs: '45',
-        fat: '5'
-    }
-    ],
-
-    lunch: [{
-        id: 3, 
-        name: 'Chicken Rice Bowl',
-        calories: '520',
-        protein: '40',
-        carbs: '55',
-        fat: '10'
-    }],
-
-    dinner: [],
-    snacks: []
-}
-
 const API = 'http://localhost:3001'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [selectedWorkout, setSelectedWorkout] = useState<any>(null)
   const [workout, setWorkout] = useState<any[]>([])
-  const [meal, setMeal] = useState(initialMeal)
+  const [meal, setMeal] = useState({
+    breakfast: [],
+    lunch: [],
+    dinner: [],
+    snacks: []
+})
   const [messages, setMessages] = useState([{
         role: 'assistant', content: 'Hey! I am your AI fitness coach. Ask me anything about workouts, nutrition, or recovery!'
     }])
@@ -68,6 +41,19 @@ function App() {
             }
         }
         fetchWorkouts()
+   }, [])
+
+   useEffect(() => {
+    async function fetchMeals() {
+        try {
+            const res = await fetch(`${API}/meals`)
+            const data = await res.json()
+            setMeal(data)
+        } catch (error) {
+            console.error('Failed to fetch meals:', error)
+        }
+    }
+    fetchMeals()
    }, [])
 
 

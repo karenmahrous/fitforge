@@ -51,7 +51,7 @@ import { getDB, saveDB } from '../database'
     | 3  | 2          | Pull Ups      | 4    | 8    |
 */
 
-// inde.ts has one app object that handles everthing, Router is a minik version of app
+// index.ts has one app object that handles everthing, Router is a minik version of app
 // Then in index.ts you mount it as a path: app.use('/workouts', workoutRouter) -> for every request that starts with /workouts use workoutRouter
 const router = Router()
 
@@ -61,7 +61,7 @@ router.get('/', (req, res) => {
         - This gives back the in-memory database object so we can run SQL against it.
         - We  do this at the start of every route handler that needs the database.
     */
-        const db = getDB()
+    const db = getDB()
     /*
         - rule: if you're reading → exec. If you're writing → run.
         - This returns: 
